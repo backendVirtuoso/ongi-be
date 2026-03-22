@@ -1,13 +1,14 @@
-package com.example.ongibe;
+package com.ongi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-public class OngiBeApplication {
+@EnableScheduling
+public class OngiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OngiBeApplication.class, args);
+        SpringApplication.run(OngiApplication.class, args);
     }
-
 }
