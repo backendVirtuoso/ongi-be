@@ -19,7 +19,7 @@
     </p>
 
     <div style="text-align: center;">
-      <a href="http://localhost:3000/gallery"
+      <a th:href="${frontendBaseUrl} + '/gallery'"
          style="display: inline-block; background: #8b5cf6; color: #fff; font-size: 14px; font-weight: 600; padding: 12px 32px; border-radius: 999px; text-decoration: none;">
         더 많은 문장 보기
       </a>
@@ -28,7 +28,7 @@
     <hr style="border: none; border-top: 1px solid #f0ede8; margin: 36px 0;">
     <p style="font-size: 12px; color: #ccc; text-align: center;">
       © 2025 온기 (Ongi) ·
-      <a href="http://localhost:3000/unsubscribe" style="color: #ccc;">구독 해지</a>
+      <a th:href="${frontendBaseUrl} + '/unsubscribe'" style="color: #ccc;">구독 해지</a>
     </p>
   </div>
 </body>

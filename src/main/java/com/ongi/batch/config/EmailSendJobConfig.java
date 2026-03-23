@@ -7,6 +7,7 @@ import com.ongi.domain.subscriber.entity.Subscriber;
 import com.ongi.domain.subscriber.entity.SubscriberStatus;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.batch.core.configuration.annotation.EnableJdbcJobRepository;
 import org.springframework.batch.core.job.Job;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -21,6 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Map;
 
 @Configuration
+@EnableJdbcJobRepository
 @RequiredArgsConstructor
 public class EmailSendJobConfig {
 

@@ -12,6 +12,8 @@ public record QuoteResponse(
         Category category,
         SourceType sourceType,
         int likeCount,
+        boolean isLiked,
+        boolean isSaved,
         LocalDateTime createdAt
 ) {
     public static QuoteResponse from(Quote quote) {
@@ -21,6 +23,21 @@ public record QuoteResponse(
                 quote.getCategory(),
                 quote.getSourceType(),
                 quote.getLikeCount(),
+                false,
+                false,
+                quote.getCreatedAt()
+        );
+    }
+
+    public static QuoteResponse from(Quote quote, boolean isLiked, boolean isSaved) {
+        return new QuoteResponse(
+                quote.getQuoteId(),
+                quote.getContent(),
+                quote.getCategory(),
+                quote.getSourceType(),
+                quote.getLikeCount(),
+                isLiked,
+                isSaved,
                 quote.getCreatedAt()
         );
     }

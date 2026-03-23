@@ -1,13 +1,13 @@
 package com.ongi.domain.subscriber.controller;
 
-import com.ongi.domain.subscriber.dto.SubscribeRequest;
-import com.ongi.domain.subscriber.dto.SubscribeResponse;
+import com.ongi.domain.subscriber.dto.*;
 import com.ongi.domain.subscriber.service.SubscriberService;
 import com.ongi.global.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,5 +34,21 @@ public class SubscriberController {
     public ResponseEntity<ApiResponse<Void>> unsubscribe(@PathVariable String email) {
         subscriberService.unsubscribe(email);
         return ResponseEntity.ok(ApiResponse.ok(null, "구독이 해지되었습니다."));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<SubscriberMeResponse>> getMe(Authentication authentication) {
+        Long subscriberId = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(ApiResponse.ok(subscriberService.getMe(subscriberId)));
+    }
+
+    @PatchMapping("/me/preferences")
+    public ResponseEntity<ApiResponse<SubscriberMeResponse>> updatePreferences(
+            @Valid @RequestBody PreferenceUpdateRequest request,
+            Authentication authentication
+    ) {
+        Long subscriberId = (Long) authentication.getPrincipal();
+        return ResponseEntity.ok(ApiResponse.ok(
+                subscriberService.updatePreferences(subscriberId, request)));
     }
 }

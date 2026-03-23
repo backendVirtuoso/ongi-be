@@ -1,7 +1,6 @@
 package com.ongi.domain.subscriber.service;
 
-import com.ongi.domain.subscriber.dto.SubscribeRequest;
-import com.ongi.domain.subscriber.dto.SubscribeResponse;
+import com.ongi.domain.subscriber.dto.*;
 import com.ongi.domain.subscriber.entity.Subscriber;
 import com.ongi.domain.subscriber.repository.SubscriberRepository;
 import com.ongi.global.exception.OngiException;
@@ -55,6 +54,21 @@ public class SubscriberService {
 
         subscriber.unsubscribe();
         log.info("Subscriber unsubscribed: {}", email);
+    }
+
+    @Transactional(readOnly = true)
+    public SubscriberMeResponse getMe(Long subscriberId) {
+        Subscriber subscriber = subscriberRepository.findById(subscriberId)
+                .orElseThrow(() -> OngiException.notFound("구독자를 찾을 수 없습니다."));
+        return SubscriberMeResponse.from(subscriber);
+    }
+
+    public SubscriberMeResponse updatePreferences(Long subscriberId, PreferenceUpdateRequest request) {
+        Subscriber subscriber = subscriberRepository.findById(subscriberId)
+                .orElseThrow(() -> OngiException.notFound("구독자를 찾을 수 없습니다."));
+
+        subscriber.updatePreferredCats(toJsonArray(request.preferredCategories()));
+        return SubscriberMeResponse.from(subscriber);
     }
 
     private String toJsonArray(List<String> list) {
