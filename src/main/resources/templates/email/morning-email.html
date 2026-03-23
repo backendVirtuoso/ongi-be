@@ -3,22 +3,35 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>오늘 아침의 온기</title>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      body { background-color: #2d2000 !important; }
+      .email-card { background-color: #1c1500 !important; }
+      .email-card h1 { color: #fde68a !important; }
+      .email-card p { color: #e2e8f0 !important; }
+      .quote-block { background-color: #2a1a00 !important; }
+    }
+  </style>
 </head>
 
-<body style="font-family: 'Apple SD Gothic Neo', sans-serif; background: #fefce8; margin: 0; padding: 40px 0;">
-  <div
+<body style="font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif; background: #fefce8; margin: 0; padding: 40px 0;">
+  <!-- Preheader: 수신함 미리보기 텍스트 -->
+  <span style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">오늘 아침, 온기가 따뜻한 문장을 가져왔어요 ☀️</span>
+
+  <div class="email-card"
     style="max-width: 520px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 48px 40px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
     <p style="font-size: 13px; color: #f59e0b; font-weight: 600; margin: 0 0 8px; letter-spacing: 0.05em;">☀️ 아침 온기</p>
     <h1 style="font-size: 22px; color: #1a1a1a; margin: 0 0 36px; font-weight: 700;">오늘 하루도 응원합니다</h1>
 
-    <div
-      style="background: #fffbf0; border-left: 4px solid #f97316; border-radius: 8px; padding: 24px 28px; margin-bottom: 36px;">
-      <p style="font-size: 18px; color: #333; line-height: 1.8; margin: 0; font-style: italic;"
+    <div class="quote-block"
+      style="background: #fff8f0; border-left: 4px solid #f97316; border-radius: 8px; padding: 24px 28px; margin-bottom: 36px;">
+      <p style="font-size: 18px; color: #333; line-height: 1.8; margin: 0;"
         th:text="${quoteContent}">문장이 여기에 표시됩니다.</p>
     </div>
 
-    <p style="font-size: 14px; color: #aaa; text-align: center; margin: 0 0 24px;">
+    <p style="font-size: 14px; color: #777; text-align: center; margin: 0 0 24px;">
       카테고리: <span th:text="${category}" style="color: #f97316; font-weight: 600;"></span>
     </p>
 
@@ -30,9 +43,9 @@
     </div>
 
     <hr style="border: none; border-top: 1px solid #f0ede8; margin: 36px 0;">
-    <p style="font-size: 12px; color: #ccc; text-align: center;">
+    <p style="font-size: 12px; color: #999; text-align: center;">
       © 2026 온기 (Ongi) ·
-      <a th:href="${frontendBaseUrl} + '/unsubscribe'" style="color: #ccc;">구독 해지</a>
+      <a th:href="${frontendBaseUrl} + '/unsubscribe'" style="color: #999;">구독 해지</a>
     </p>
   </div>
 </body>
