@@ -45,7 +45,7 @@ public class SubscriberService {
                 .orElseThrow(() -> OngiException.notFound("유효하지 않은 인증 토큰입니다."));
 
         subscriber.verify();
-        return SubscribeResponse.from(subscriber, "이메일 인증이 완료되었습니다. 온기를 구독해주셔서 감사합니다!");
+        return SubscribeResponse.from(subscriber, "이메일 인증이 완료되었습니다. 토닥토닥를 구독해주셔서 감사합니다!");
     }
 
     public void unsubscribe(String email) {

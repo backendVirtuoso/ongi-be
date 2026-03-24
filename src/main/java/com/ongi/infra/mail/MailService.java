@@ -37,7 +37,7 @@ public class MailService {
                 frontendBaseUrl + "/auth/callback?token=" + token);
 
         String html = templateEngine.process("email/magic-link-email", context);
-        send(toEmail, "[온기] 로그인 링크가 도착했습니다", html);
+        send(toEmail, "[토닥토닥] 로그인 링크가 도착했습니다", html);
     }
 
     @Async
@@ -48,7 +48,7 @@ public class MailService {
                 frontendBaseUrl + "/verify?token=" + verifyToken);
 
         String html = templateEngine.process("email/verify-email", context);
-        send(toEmail, "[온기] 이메일 인증을 완료해주세요", html);
+        send(toEmail, "[토닥토닥] 이메일 인증을 완료해주세요", html);
     }
 
     public void sendEmailWithContent(String toEmail, String subject, String html) {
