@@ -14,7 +14,8 @@ public record SubscriberMeResponse(
         String email,
         String name,
         SubscriberStatus status,
-        List<String> preferredCategories
+        List<String> preferredCategories,
+        boolean isAdmin
 ) {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -25,7 +26,8 @@ public record SubscriberMeResponse(
                 subscriber.getEmail(),
                 subscriber.getName(),
                 subscriber.getStatus(),
-                categories
+                categories,
+                subscriber.isAdmin()
         );
     }
 

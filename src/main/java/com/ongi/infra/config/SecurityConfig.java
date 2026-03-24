@@ -1,6 +1,7 @@
 package com.ongi.infra.config;
 
 import com.ongi.infra.jwt.JwtAuthFilter;
+import com.ongi.infra.security.AdminAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final AdminAuthFilter adminAuthFilter;
 
     @org.springframework.beans.factory.annotation.Value("${ongi.frontend.base-url}")
     private String frontendBaseUrl;
@@ -65,6 +67,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/v1/quotes/*/save").authenticated()
                         // Protected - My page
                         .requestMatchers("/api/v1/subscribers/me/**").authenticated()
+                        // Admin - JWT + admin role 검증은 AdminAuthFilter가 처리
+                        .requestMatchers("/api/v1/admin/**").authenticated()
                         // Actuator / Error
                         .requestMatchers("/actuator/**", "/error").permitAll()
                         .anyRequest().permitAll()
@@ -77,6 +81,7 @@ public class SecurityConfig {
                                     "{\"success\":false,\"data\":null,\"message\":\"인증이 필요합니다.\"}");
                         })
                 )
+                .addFilterBefore(adminAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

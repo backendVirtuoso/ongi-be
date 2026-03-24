@@ -45,6 +45,14 @@ public class Subscriber {
     @Column(name = "unsubscribed_at")
     private LocalDateTime unsubscribedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private SubscriberRole role = SubscriberRole.USER;
+
+    public boolean isAdmin() {
+        return SubscriberRole.ADMIN.equals(this.role);
+    }
+
     public static Subscriber create(String email, String name, String verifyToken) {
         Subscriber subscriber = new Subscriber();
         subscriber.email = email;
