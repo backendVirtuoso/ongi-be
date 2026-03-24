@@ -11,8 +11,8 @@ import org.springframework.batch.infrastructure.item.ItemWriter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
+// NOTE: @Component 제거 — Kafka 전환 후 롤백용으로 보존. 재활성화 시 @Component 추가 후 EmailSendJobConfig 수정
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class EmailSendWriter implements ItemWriter<EmailMessage> {
 

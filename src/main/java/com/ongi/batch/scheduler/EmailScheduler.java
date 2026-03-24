@@ -1,6 +1,5 @@
 package com.ongi.batch.scheduler;
 
-import com.ongi.batch.processor.EmailContentProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.job.Job;
@@ -17,24 +16,22 @@ public class EmailScheduler {
 
     private final JobOperator jobOperator;
     private final Job emailSendJob;
-    private final EmailContentProcessor emailContentProcessor;
 
-    @Scheduled(cron = "0 0 8 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul")
     public void sendMorningEmail() {
-        emailContentProcessor.configureSendType("MORNING", "email/morning-email");
-        runJob("MORNING");
+        runJob("MORNING", "email/morning-email");
     }
 
-    @Scheduled(cron = "0 0 21 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 19 * * *", zone = "Asia/Seoul")
     public void sendEveningEmail() {
-        emailContentProcessor.configureSendType("EVENING", "email/evening-email");
-        runJob("EVENING");
+        runJob("EVENING", "email/evening-email");
     }
 
-    private void runJob(String sendType) {
+    private void runJob(String sendType, String templateName) {
         try {
             JobParameters params = new JobParametersBuilder()
                     .addString("sendType", sendType)
+                    .addString("templateName", templateName)
                     .addLong("timestamp", System.currentTimeMillis())
                     .toJobParameters();
             jobOperator.run(emailSendJob, params);

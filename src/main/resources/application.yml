@@ -54,6 +54,20 @@ spring:
     jdbc:
       initialize-schema: always
 
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: ongi-email-consumer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      properties:
+        spring.json.trusted.packages: "com.ongi.batch.dto"
+
 server:
   port: 8080
 
@@ -74,7 +88,7 @@ logging:
 ongi:
   mail:
     from: ${GMAIL_USERNAME}
-    from-name: "온기 (Ongi)"
+    from-name: "토닥토닥"
   jwt:
     secret: ${JWT_SECRET}
     expiration-ms: 604800000  # 7일
@@ -84,6 +98,7 @@ ongi:
     model: claude-haiku-4-5-20251001
   frontend:
     base-url: ${FRONTEND_URL}
+  # admin.api-key 제거 — 어드민 인증은 JWT + ADMIN role로 처리
 
 ---
 spring:

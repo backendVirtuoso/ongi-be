@@ -1,8 +1,8 @@
 package com.ongi.batch.config;
 
+import com.ongi.batch.dto.EmailMessageDto;
 import com.ongi.batch.processor.EmailContentProcessor;
-import com.ongi.batch.processor.EmailMessage;
-import com.ongi.batch.writer.EmailSendWriter;
+import com.ongi.batch.writer.KafkaEmailProducer;
 import com.ongi.domain.subscriber.entity.Subscriber;
 import com.ongi.domain.subscriber.entity.SubscriberStatus;
 import jakarta.persistence.EntityManagerFactory;
@@ -30,7 +30,7 @@ public class EmailSendJobConfig {
     private final PlatformTransactionManager transactionManager;
     private final EntityManagerFactory entityManagerFactory;
     private final EmailContentProcessor emailContentProcessor;
-    private final EmailSendWriter emailSendWriter;
+    private final KafkaEmailProducer kafkaEmailProducer;
 
     @Bean
     public Job emailSendJob() {
@@ -40,12 +40,12 @@ public class EmailSendJobConfig {
     }
 
     @Bean
-    public ChunkOrientedStep<Subscriber, EmailMessage> emailSendStep() {
-        return new ChunkOrientedStepBuilder<Subscriber, EmailMessage>("emailSendStep", jobRepository, 100)
+    public ChunkOrientedStep<Subscriber, EmailMessageDto> emailSendStep() {
+        return new ChunkOrientedStepBuilder<Subscriber, EmailMessageDto>("emailSendStep", jobRepository, 100)
                 .transactionManager(transactionManager)
                 .reader(activeSubscriberReader())
                 .processor(emailContentProcessor)
-                .writer(emailSendWriter)
+                .writer(kafkaEmailProducer)
                 .build();
     }
 
