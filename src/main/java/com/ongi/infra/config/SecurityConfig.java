@@ -76,6 +76,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/admin/**").authenticated()
                         // Actuator / Error
                         .requestMatchers("/actuator/**", "/error").permitAll()
+                        // Swagger UI
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(ex -> ex
