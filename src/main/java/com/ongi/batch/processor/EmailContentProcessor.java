@@ -64,7 +64,7 @@ public class EmailContentProcessor implements ItemProcessor<Subscriber, EmailMes
                 subscriber.getName(),
                 quote.getQuoteId(),
                 quote.getContent(),
-                quote.getCategory().name(),
+                quote.getCategory().getDisplayName(),
                 sendType,
                 subject,
                 templateName

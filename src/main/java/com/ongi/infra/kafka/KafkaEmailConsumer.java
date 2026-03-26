@@ -61,7 +61,7 @@ public class KafkaEmailConsumer {
         } catch (Exception e) {
             log.error("Failed to send email to {}: {}", dto.email(), e.getMessage());
             recordFailure(dto, e.getMessage());
-            ack.acknowledge(); // DLQ로 라우팅은 DefaultErrorHandler가 담당
+            throw e;
         }
     }
 

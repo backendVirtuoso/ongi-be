@@ -14,7 +14,7 @@ spring:
     url: ${DB_URL}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: ${DB_DRIVER}
 
   jpa:
     hibernate:
@@ -23,7 +23,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: ${DB_DIALECT}
 
   flyway:
     enabled: true
@@ -32,8 +32,7 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      url: ${REDIS_URL}
       timeout: 3000ms
 
   mail:
@@ -55,7 +54,7 @@ spring:
       initialize-schema: always
 
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -71,6 +70,14 @@ spring:
 server:
   port: 8080
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+
 management:
   endpoints:
     web:
@@ -83,6 +90,7 @@ management:
 logging:
   level:
     com.ongi: DEBUG
+    org.springframework.kafka: DEBUG
     org.springframework.batch: INFO
 
 ongi:
