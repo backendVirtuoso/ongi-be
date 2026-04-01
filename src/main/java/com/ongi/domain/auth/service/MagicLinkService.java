@@ -1,7 +1,6 @@
 package com.ongi.domain.auth.service;
 
 import com.ongi.domain.auth.dto.MagicLinkRequest;
-import com.ongi.domain.auth.dto.TokenResponse;
 import com.ongi.domain.auth.entity.MagicLinkToken;
 import com.ongi.domain.auth.repository.MagicLinkTokenRepository;
 import com.ongi.domain.subscriber.entity.Subscriber;
@@ -10,6 +9,7 @@ import com.ongi.domain.subscriber.repository.SubscriberRepository;
 import com.ongi.global.exception.OngiException;
 import com.ongi.global.util.TokenGenerator;
 import com.ongi.infra.jwt.JwtProvider;
+import com.ongi.infra.jwt.RefreshTokenService;
 import com.ongi.infra.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,7 @@ public class MagicLinkService {
     private final MagicLinkTokenRepository magicLinkTokenRepository;
     private final SubscriberRepository subscriberRepository;
     private final JwtProvider jwtProvider;
+    private final RefreshTokenService refreshTokenService;
     private final MailService mailService;
 
     public void sendMagicLink(MagicLinkRequest request) {
@@ -45,7 +46,7 @@ public class MagicLinkService {
         log.info("Magic link sent to: {}", request.email());
     }
 
-    public TokenResponse verifyMagicLink(String token) {
+    public VerifyResult verifyMagicLink(String token) {
         MagicLinkToken magicLinkToken = magicLinkTokenRepository.findByToken(token)
                 .orElseThrow(() -> OngiException.notFound("유효하지 않은 링크입니다."));
 
@@ -61,7 +62,13 @@ public class MagicLinkService {
         Subscriber subscriber = subscriberRepository.findByEmail(magicLinkToken.getEmail())
                 .orElseThrow(() -> OngiException.notFound("구독자를 찾을 수 없습니다."));
 
-        String jwt = jwtProvider.generateToken(subscriber.getSubscriberId());
-        return new TokenResponse(jwt, subscriber.getSubscriberId(), subscriber.getEmail());
+        Long subscriberId = subscriber.getSubscriberId();
+        String accessToken = jwtProvider.generateToken(subscriberId);
+        String refreshToken = jwtProvider.generateRefreshToken(subscriberId);
+        refreshTokenService.save(subscriberId, refreshToken);
+
+        return new VerifyResult(accessToken, refreshToken, subscriberId, subscriber.getEmail());
     }
+
+    public record VerifyResult(String accessToken, String refreshToken, Long subscriberId, String email) {}
 }
