@@ -99,7 +99,8 @@ ongi:
     from-name: "토닥토닥"
   jwt:
     secret: ${JWT_SECRET}
-    expiration-ms: 604800000  # 7일
+    expiration-ms: 1800000           # 30분
+    refresh-expiration-ms: 604800000 # 7일
   claude:
     api-key: ${CLAUDE_API_KEY}
     base-url: https://api.anthropic.com
