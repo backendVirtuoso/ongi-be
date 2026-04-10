@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "tb_send_history")
@@ -34,7 +34,6 @@ public class SendHistory {
     @Column(name = "send_status", nullable = false, length = 10)
     private String sendStatus = "SUCCESS";
 
-    @CreationTimestamp
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
 
@@ -47,6 +46,7 @@ public class SendHistory {
         history.quote = quote;
         history.sendType = sendType;
         history.sendStatus = "SUCCESS";
+        history.sentAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         return history;
     }
 
@@ -57,6 +57,7 @@ public class SendHistory {
         history.sendType = sendType;
         history.sendStatus = "FAILED";
         history.errorMessage = errorMessage;
+        history.sentAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         return history;
     }
 }
