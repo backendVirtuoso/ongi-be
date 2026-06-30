@@ -293,4 +293,4 @@ Flyway 마이그레이션으로 자동 관리 (`src/main/resources/db/migration/
 
 ## 관련 레포지토리
 
-- **Frontend**: [ongi-fe](https://github.com/) — Next.js 15 + TypeScript + Tailwind CSS
+- **Frontend**: [ongi-fe](https://github.com/backendVirtuoso/ongi-fe) — Next.js 15 + TypeScript + Tailwind CSS
